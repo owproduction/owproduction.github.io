@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCalc | Элегантный калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Фоновые элементы -->
+    <div class="bg-elements">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="gradient-overlay"></div>
+    </div>
+
+    <!-- Основной контейнер -->
+    <div class="calculator-container">
+        <!-- Заголовок с переключателем темы -->
+        <div class="header">
+            <div class="title-section">
+                <h1><i class="fas fa-calculator"></i> NeoCalc</h1>
+                <p class="subtitle">Элегантная математика</p>
+            </div>
+            <div class="theme-switcher">
+                <button id="theme-toggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Тёмная</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Дисплей калькулятора -->
+        <div class="display-wrapper">
+            <div class="display-header">
+                <div class="memory-indicator">
+                    <i class="fas fa-memory"></i>
+                    <span>MEM</span>
+                </div>
+                <div class="history-btn" id="show-history">
+                    <i class="fas fa-history"></i>
+                </div>
+            </div>
+            
+            <div class="display">
+                <div class="expression" id="expression"></div>
+                <div class="result" id="result">0</div>
+            </div>
+
+            <!-- Индикатор операций -->
+            <div class="operation-indicator">
+                <div class="op-tag active" data-op="+">+</div>
+                <div class="op-tag" data-op="-">-</div>
+                <div class="op-tag" data-op="×">×</div>
+                <div class="op-tag" data-op="÷">÷</div>
+                <div class="op-tag" data-op="%">%</div>
+            </div>
+        </div>
+
+        <!-- Панель специальных функций -->
+        <div class="special-functions">
+            <button class="func-btn" data-action="mc">
+                <i class="fas fa-trash"></i>
+                <span>MC</span>
+            </button>
+            <button class="func-btn" data-action="mr">
+                <i class="fas fa-redo"></i>
+                <span>MR</span>
+            </button>
+            <button class="func-btn" data-action="m-plus">
+                <i class="fas fa-plus-circle"></i>
+                <span>M+</span>
+            </button>
+            <button class="func-btn" data-action="m-minus">
+                <i class="fas fa-minus-circle"></i>
+                <span>M-</span>
+            </button>
+            <button class="func-btn" data-action="clear">
+                <i class="fas fa-broom"></i>
+                <span>C</span>
+            </button>
+        </div>
+
+        <!-- Основная клавиатура -->
+        <div class="keyboard">
+            <!-- Первый ряд -->
+            <button class="key op" data-op="%">
+                <span class="symbol">%</span>
+                <span class="label">Процент</span>
+            </button>
+            <button class="key op" data-op="(">
+                <span class="symbol">(</span>
+                <span class="label">Открыть</span>
+            </button>
+            <button class="key op" data-op=")">
+                <span class="symbol">)</span>
+                <span class="label">Закрыть</span>
+            </button>
+            <button class="key op highlight" data-op="÷">
+                <span class="symbol">÷</span>
+                <span class="label">Деление</span>
+            </button>
+
+            <!-- Второй ряд -->
+            <button class="key num" data-num="7">
+                <span class="symbol">7</span>
+                <span class="label">Семь</span>
+            </button>
+            <button class="key num" data-num="8">
+                <span class="symbol">8</span>
+                <span class="label">Восемь</span>
+            </button>
+            <button class="key num" data-num="9">
+                <span class="symbol">9</span>
+                <span class="label">Девять</span>
+            </button>
+            <button class="key op highlight" data-op="×">
+                <span class="symbol">×</span>
+                <span class="label">Умножение</span>
+            </button>
+
+            <!-- Третий ряд -->
+            <button class="key num" data-num="4">
+                <span class="symbol">4</span>
+                <span class="label">Четыре</span>
+            </button>
+            <button class="key num" data-num="5">
+                <span class="symbol">5</span>
+                <span class="label">Пять</span>
+            </button>
+            <button class="key num" data-num="6">
+                <span class="symbol">6</span>
+                <span class="label">Шесть</span>
+            </button>
+            <button class="key op highlight" data-op="-">
+                <span class="symbol">-</span>
+                <span class="label">Вычитание</span>
+            </button>
+
+            <!-- Четвертый ряд -->
+            <button class="key num" data-num="1">
+                <span class="symbol">1</span>
+                <span class="label">Один</span>
+            </button>
+            <button class="key num" data-num="2">
+                <span class="symbol">2</span>
+                <span class="label">Два</span>
+            </button>
+            <button class="key num" data-num="3">
+                <span class="symbol">3</span>
+                <span class="label">Три</span>
+            </button>
+            <button class="key op highlight" data-op="+">
+                <span class="symbol">+</span>
+                <span class="label">Сложение</span>
+            </button>
+
+            <!-- Пятый ряд -->
+            <button class="key wide num" data-num="0">
+                <span class="symbol">0</span>
+                <span class="label">Ноль</span>
+            </button>
+            <button class="key" data-action="decimal">
+                <span class="symbol">.</span>
+                <span class="label">Запятая</span>
+            </button>
+            <button class="key equals" data-action="calculate">
+                <span class="symbol">=</span>
+                <span class="label">Равно</span>
+                <div class="equals-glow"></div>
+            </button>
+        </div>
+
+        <!-- История вычислений -->
+        <div class="history-panel" id="history-panel">
+            <div class="history-header">
+                <h3><i class="fas fa-history"></i> История</h3>
+                <button class="close-history" id="close-history">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="history-list" id="history-list">
+                <!-- История будет добавляться сюда -->
+            </div>
+            <button class="clear-history" id="clear-history">
+                <i class="fas fa-trash-alt"></i> Очистить историю
+            </button>
+        </div>
+
+        <!-- Футер -->
+        <div class="footer">
+            <div class="hint">
+                <i class="fas fa-lightbulb"></i>
+                <span>Используйте клавиатуру для быстрого ввода</span>
+            </div>
+            <div class="status">
+                <div class="status-dot"></div>
+                <span>Готов</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Эффект клика -->
+    <div class="click-effect" id="click-effect"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
