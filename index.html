@@ -2,30 +2,93 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Для тебя</title>
+    <title>Для тебя ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Telegram Web App API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #fff0f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffd1dc, #fff0f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
         .card {
             background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            max-width: 500px;
+            padding: 32px 26px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            max-width: 340px;
+            text-align: center;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .heart {
+            font-size: 36px;
+            margin-bottom: 12px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .text {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .footer {
+            margin-top: 18px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        Привет солнце. Поздравляю с 11 месяцем наших отношений, спасибо, что ты есть, очень ценю тебя. Ты самая лучшая во вселенной ❤️
+
+<div class="card">
+    <div class="heart">❤️</div>
+    <div class="text">
+        Привет, солнце.<br><br>
+        Поздравляю с 11 месяцем наших отношений.  
+        Спасибо, что ты есть — я очень ценю тебя.<br><br>
+        Ты самая лучшая во всей вселенной ❤️
     </div>
+    <div class="footer">
+        всегда твой
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand(); // раскрывает на весь экран
+</script>
+
 </body>
 </html>
