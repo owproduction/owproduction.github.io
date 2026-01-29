@@ -3,211 +3,1303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Артемчик | Элегантный калькулятор</title>
-    <link rel="stylesheet" href="style.css">
+    <title>🌈 Color Wizard | Генератор палитр</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --neon-green: #00ff00;
+            --neon-yellow: #ffff00;
+            --neon-purple: #9d00ff;
+            --space-black: #0a0a0f;
+            --space-purple: #1a0a2e;
+            --space-blue: #0a1a2e;
+            --glass-white: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--space-black), var(--space-purple), var(--space-blue));
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный градиентный фон */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Частицы */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float var(--duration) linear infinite;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        /* Основной контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Шапка */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 0, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.5));
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* Основной контент - две колонки */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Карточки */
+        .card {
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 0, 255, 0.2);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+        }
+
+        .card-title i {
+            font-size: 1.5rem;
+        }
+
+        /* Кнопки */
+        .btn {
+            padding: 12px 25px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            color: white;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--glass-white);
+            color: white;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        /* Палитра цветов */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .color-item {
+            height: 80px;
+            border-radius: 15px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .color-item:hover {
+            transform: scale(1.05);
+            border-color: white;
+        }
+
+        .color-item.active {
+            border-color: white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .color-code {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 3px;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        /* Градиент превью */
+        .gradient-preview {
+            height: 150px;
+            border-radius: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+        }
+
+        .gradient-code {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Схемы цветов */
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .scheme-btn {
+            padding: 15px;
+            border-radius: 15px;
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .scheme-btn:hover, .scheme-btn.active {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        /* Кнопки действия */
+        .actions-bar {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--glass-white), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 0, 255, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            background: linear-gradient(90deg, var(--neon-yellow), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Цветовой круг */
+        .color-wheel-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #colorWheel {
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--glass-border);
+        }
+
+        /* Экспорт опций */
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .export-option {
+            padding: 15px;
+            border-radius: 15px;
+            background: var(--glass-white);
+            border: 1px solid var(--glass-border);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .export-option:hover {
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            transform: scale(1.05);
+        }
+
+        /* Футер */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .color-palette {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .schemes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Фоновые элементы -->
-    <div class="bg-elements">
-        <div class="circle circle-1"></div>
-        <div class="circle circle-2"></div>
-        <div class="circle circle-3"></div>
-        <div class="gradient-overlay"></div>
-    </div>
+    <!-- Анимированный фон -->
+    <div class="gradient-bg"></div>
+    <div class="particles" id="particles"></div>
 
-    <!-- Основной контейнер -->
-    <div class="calculator-container">
-        <!-- Заголовок с переключателем темы -->
-        <div class="header">
-            <div class="title-section">
-                <h1><i class="fas fa-calculator"></i>  Lavanda</h1>
-                <p class="subtitle">Лавандовая математика</p>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-wand-magic-sparkles"></i>
+                <h1>Color Wizard</h1>
             </div>
-            <div class="theme-switcher">
-                <button id="theme-toggle" class="theme-btn">
-                    <i class="fas fa-moon"></i>
-                    <span>Тёмная</span>
-                </button>
-            </div>
-        </div>
+            <p class="tagline">Генератор идеальных цветовых палитр и градиентов</p>
+        </header>
 
-        <!-- Дисплей калькулятора -->
-        <div class="display-wrapper">
-            <div class="display-header">
-                <div class="memory-indicator">
-                    <i class="fas fa-memory"></i>
-                    <span>обед</span>
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая колонка - работа с цветами -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fas fa-palette"></i>
+                    Основной цвет
+                </h2>
+                
+                <div class="color-wheel-container">
+                    <canvas id="colorWheel" width="300" height="300"></canvas>
                 </div>
-                <div class="history-btn" id="show-history">
-                    <i class="fas fa-history"></i>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="pickColorBtn">
+                        <i class="fas fa-eye-dropper"></i>
+                        Выбрать цвет
+                    </button>
+                    <button class="btn btn-secondary" id="randomColorBtn">
+                        <i class="fas fa-random"></i>
+                        Случайный
+                    </button>
+                    <input type="color" id="colorInput" style="display: none;">
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="margin-bottom: 10px; color: var(--neon-blue);">Цветовой код:</h3>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="colorCode" readonly 
+                               style="flex: 1; padding: 12px; border-radius: 10px; 
+                                      background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); 
+                                      color: white; font-family: monospace;">
+                        <button class="btn btn-secondary" id="copyColorBtn">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <div class="display">
-                <div class="expression" id="expression"></div>
-                <div class="result" id="result">0</div>
-            </div>
 
-            <!-- Индикатор операций -->
-            <div class="operation-indicator">
-                <div class="op-tag active" data-op="+">+</div>
-                <div class="op-tag" data-op="-">-</div>
-                <div class="op-tag" data-op="×">×</div>
-                <div class="op-tag" data-op="÷">÷</div>
-                <div class="op-tag" data-op="%">%</div>
+            <!-- Правая колонка - палитра и схемы -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fas fa-star"></i>
+                    Сгенерированная палитра
+                </h2>
+
+                <div class="color-palette" id="colorPalette">
+                    <!-- Цвета будут генерироваться здесь -->
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <h3 style="margin-bottom: 10px; color: var(--neon-green);">
+                        <i class="fas fa-fill-drip"></i>
+                        Градиент
+                    </h3>
+                    <div class="gradient-preview" id="gradientPreview"></div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: var(--neon-yellow);">
+                    <i class="fas fa-magic"></i>
+                    Цветовые схемы
+                </h3>
+                <div class="schemes-grid" id="schemesGrid">
+                    <!-- Схемы будут генерироваться здесь -->
+                </div>
             </div>
         </div>
 
-        <!-- Панель специальных функций -->
-        <div class="special-functions">
-            <button class="func-btn" data-action="mc">
-                <i class="fas fa-trash"></i>
-                <span>MC</span>
+        <!-- Панель действий -->
+        <div class="actions-bar">
+            <button class="btn btn-primary" id="generatePaletteBtn">
+                <i class="fas fa-bolt"></i>
+                Новая палитра
             </button>
-            <button class="func-btn" data-action="mr">
-                <i class="fas fa-redo"></i>
-                <span>MR</span>
+            <button class="btn btn-secondary" id="exportBtn">
+                <i class="fas fa-download"></i>
+                Экспорт
             </button>
-            <button class="func-btn" data-action="m-plus">
-                <i class="fas fa-plus-circle"></i>
-                <span>M+</span>
+            <button class="btn btn-secondary" id="saveBtn">
+                <i class="far fa-save"></i>
+                Сохранить
             </button>
-            <button class="func-btn" data-action="m-minus">
-                <i class="fas fa-minus-circle"></i>
-                <span>M-</span>
-            </button>
-            <button class="func-btn" data-action="clear">
-                <i class="fas fa-broom"></i>
-                <span>C</span>
+            <button class="btn btn-secondary" id="loadImageBtn">
+                <i class="fas fa-image"></i>
+                Из изображения
             </button>
         </div>
 
-        <!-- Основная клавиатура -->
-        <div class="keyboard">
-            <!-- Первый ряд -->
-            <button class="key op" data-op="%">
-                <span class="symbol">%</span>
-                <span class="label">Процент</span>
-            </button>
-            <button class="key op" data-op="(">
-                <span class="symbol">(</span>
-                <span class="label">Открыть</span>
-            </button>
-            <button class="key op" data-op=")">
-                <span class="symbol">)</span>
-                <span class="label">Закрыть</span>
-            </button>
-            <button class="key op highlight" data-op="÷">
-                <span class="symbol">÷</span>
-                <span class="label">Деление</span>
-            </button>
-
-            <!-- Второй ряд -->
-            <button class="key num" data-num="7">
-                <span class="symbol">7</span>
-                <span class="label">Семь</span>
-            </button>
-            <button class="key num" data-num="8">
-                <span class="symbol">8</span>
-                <span class="label">Восемь</span>
-            </button>
-            <button class="key num" data-num="9">
-                <span class="symbol">9</span>
-                <span class="label">Девять</span>
-            </button>
-            <button class="key op highlight" data-op="×">
-                <span class="symbol">×</span>
-                <span class="label">Умножение</span>
-            </button>
-
-            <!-- Третий ряд -->
-            <button class="key num" data-num="4">
-                <span class="symbol">4</span>
-                <span class="label">Четыре</span>
-            </button>
-            <button class="key num" data-num="5">
-                <span class="symbol">5</span>
-                <span class="label">Пять</span>
-            </button>
-            <button class="key num" data-num="6">
-                <span class="symbol">6</span>
-                <span class="label">Шесть</span>
-            </button>
-            <button class="key op highlight" data-op="-">
-                <span class="symbol">-</span>
-                <span class="label">Вычитание</span>
-            </button>
-
-            <!-- Четвертый ряд -->
-            <button class="key num" data-num="1">
-                <span class="symbol">1</span>
-                <span class="label">Один</span>
-            </button>
-            <button class="key num" data-num="2">
-                <span class="symbol">2</span>
-                <span class="label">Два</span>
-            </button>
-            <button class="key num" data-num="3">
-                <span class="symbol">3</span>
-                <span class="label">Три</span>
-            </button>
-            <button class="key op highlight" data-op="+">
-                <span class="symbol">+</span>
-                <span class="label">Сложение</span>
-            </button>
-
-            <!-- Пятый ряд -->
-            <button class="key wide num" data-num="0">
-                <span class="symbol">0</span>
-                <span class="label">Ноль</span>
-            </button>
-            <button class="key" data-action="decimal">
-                <span class="symbol">.</span>
-                <span class="label">Запятая</span>
-            </button>
-            <button class="key equals" data-action="calculate">
-                <span class="symbol">=</span>
-                <span class="label">Равно</span>
-                <div class="equals-glow"></div>
-            </button>
+        <!-- Уведомление -->
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText">Текст уведомления</span>
         </div>
 
-        <!-- История вычислений -->
-        <div class="history-panel" id="history-panel">
-            <div class="history-header">
-                <h3><i class="fas fa-history"></i> История</h3>
-                <button class="close-history" id="close-history">
-                    <i class="fas fa-times"></i>
-                </button>
+        <!-- Модальное окно экспорта -->
+        <div class="modal" id="exportModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-file-export"></i> Экспорт палитры</h3>
+                    <button class="close-btn" id="closeExportModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="export-options">
+                    <div class="export-option" data-format="css">
+                        <i class="fab fa-css3-alt"></i>
+                        <div>CSS Переменные</div>
+                    </div>
+                    <div class="export-option" data-format="tailwind">
+                        <i class="fas fa-wind"></i>
+                        <div>Tailwind Config</div>
+                    </div>
+                    <div class="export-option" data-format="scss">
+                        <i class="fab fa-sass"></i>
+                        <div>SCSS Переменные</div>
+                    </div>
+                    <div class="export-option" data-format="json">
+                        <i class="fas fa-code"></i>
+                        <div>JSON Данные</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <textarea id="exportCode" readonly 
+                              style="width: 100%; height: 150px; padding: 15px; 
+                                     border-radius: 15px; background: rgba(0,0,0,0.5); 
+                                     border: 1px solid var(--glass-border); color: white; 
+                                     font-family: monospace; resize: none;"></textarea>
+                    <button class="btn btn-primary" id="copyExportBtn" style="width: 100%; margin-top: 15px;">
+                        <i class="far fa-copy"></i>
+                        Скопировать код
+                    </button>
+                </div>
             </div>
-            <div class="history-list" id="history-list">
-                <!-- История будет добавляться сюда -->
-            </div>
-            <button class="clear-history" id="clear-history">
-                <i class="fas fa-trash-alt"></i> Очистить историю
-            </button>
         </div>
 
         <!-- Футер -->
-        <div class="footer">
-            <div class="hint">
-                <i class="fas fa-lightbulb"></i>
-                <span>Используйте клавиатуру для быстрого ввода</span>
-            </div>
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>Готов</span>
-            </div>
-        </div>
+        <footer class="footer">
+            <p>Color Wizard v1.0 • Создано с 💜 для красивых цветов</p>
+            <p style="margin-top: 5px; font-size: 0.8rem;">
+                <i class="fas fa-mobile-alt"></i> Работает полностью в браузере • 
+                <i class="fas fa-paint-brush"></i> Без бэкенда
+            </p>
+        </footer>
     </div>
 
-    <!-- Эффект клика -->
-    <div class="click-effect" id="click-effect"></div>
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
 
-    <script src="script.js"></script>
+        // Текущее состояние приложения
+        let currentColor = '#FF6B6B';
+        let currentPalette = [];
+        let savedPalettes = JSON.parse(localStorage.getItem('savedPalettes')) || [];
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            initColorWheel();
+            createParticles();
+            generatePalette();
+            setupEventListeners();
+            showNotification('Color Wizard загружен!', 'success');
+        });
+
+        // Создание частиц фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 4 + 1;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                const color = `rgba(${Math.floor(Math.random() * 255)}, 
+                                   ${Math.floor(Math.random() * 255)}, 
+                                   ${Math.floor(Math.random() * 255)}, 
+                                   ${Math.random() * 0.3 + 0.1})`;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.background = color;
+                particle.style.setProperty('--duration', `${duration}s`);
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Инициализация цветового круга
+        function initColorWheel() {
+            const canvas = document.getElementById('colorWheel');
+            const ctx = canvas.getContext('2d');
+            const radius = canvas.width / 2;
+
+            // Рисуем цветовой круг
+            for (let angle = 0; angle < 360; angle++) {
+                const startAngle = (angle - 2) * Math.PI / 180;
+                const endAngle = angle * Math.PI / 180;
+                
+                for (let r = 0; r < radius; r++) {
+                    const gradient = ctx.createRadialGradient(
+                        radius, radius, r,
+                        radius, radius, r + 1
+                    );
+                    
+                    const hue = angle;
+                    const saturation = r / radius * 100;
+                    const lightness = 50;
+                    
+                    gradient.addColorStop(0, `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+                    gradient.addColorStop(1, `hsl(${hue}, ${saturation}%, ${lightness}%)`);
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(radius, radius, r, startAngle, endAngle);
+                    ctx.fill();
+                }
+            }
+
+            // Обработчик клика по кругу
+            canvas.addEventListener('click', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+                
+                currentColor = rgbToHex(pixel[0], pixel[1], pixel[2]);
+                updateColor(currentColor);
+            });
+        }
+
+        // Генерация палитры
+        function generatePalette(baseColor = currentColor) {
+            currentPalette = generateColorScheme(baseColor);
+            renderPalette();
+            renderGradient();
+            renderColorSchemes();
+        }
+
+        // Генерация 5-цветовой схемы
+        function generateColorScheme(baseColor) {
+            const hex = baseColor.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            
+            const hsl = rgbToHsl(r, g, b);
+            const colors = [];
+            
+            // Основной цвет
+            colors.push(baseColor);
+            
+            // Аналогичные цвета (±30 градусов)
+            colors.push(hslToHex((hsl[0] + 30) % 360, hsl[1], hsl[2]));
+            colors.push(hslToHex((hsl[0] - 30 + 360) % 360, hsl[1], hsl[2]));
+            
+            // Комплементарный цвет (+180 градусов)
+            colors.push(hslToHex((hsl[0] + 180) % 360, hsl[1], hsl[2]));
+            
+            // Триадный цвет (+120 градусов)
+            colors.push(hslToHex((hsl[0] + 120) % 360, hsl[1], hsl[2]));
+            
+            return colors;
+        }
+
+        // Отображение палитры
+        function renderPalette() {
+            const paletteContainer = document.getElementById('colorPalette');
+            paletteContainer.innerHTML = '';
+            
+            currentPalette.forEach((color, index) => {
+                const colorItem = document.createElement('div');
+                colorItem.className = 'color-item';
+                colorItem.style.background = color;
+                colorItem.dataset.color = color;
+                
+                const colorCode = document.createElement('div');
+                colorCode.className = 'color-code';
+                colorCode.textContent = color;
+                
+                colorItem.appendChild(colorCode);
+                
+                colorItem.addEventListener('click', function() {
+                    // Убираем активный класс у всех
+                    document.querySelectorAll('.color-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Добавляем активный класс текущему
+                    this.classList.add('active');
+                    
+                    // Устанавливаем как основной цвет
+                    currentColor = color;
+                    updateColor(color);
+                });
+                
+                // Первый цвет активный по умолчанию
+                if (index === 0) {
+                    colorItem.classList.add('active');
+                }
+                
+                paletteContainer.appendChild(colorItem);
+            });
+        }
+
+        // Отображение градиента
+        function renderGradient() {
+            const gradientPreview = document.getElementById('gradientPreview');
+            const gradientCode = gradientPreview.querySelector('.gradient-code') || 
+                                document.createElement('div');
+            
+            // Создаем градиент из первых двух цветов палитры
+            const gradient = `linear-gradient(135deg, ${currentPalette[0]}, ${currentPalette[2]})`;
+            gradientPreview.style.background = gradient;
+            
+            gradientCode.className = 'gradient-code';
+            gradientCode.textContent = `background: ${gradient};`;
+            
+            if (!gradientPreview.contains(gradientCode)) {
+                gradientPreview.appendChild(gradientCode);
+            }
+        }
+
+        // Отображение схем цветов
+        function renderColorSchemes() {
+            const schemesGrid = document.getElementById('schemesGrid');
+            schemesGrid.innerHTML = '';
+            
+            const schemes = [
+                { name: 'Монохромная', icon: 'fas fa-circle', type: 'monochrome' },
+                { name: 'Аналоговая', icon: 'fas fa-sliders-h', type: 'analogous' },
+                { name: 'Триада', icon: 'fas fa-play-circle', type: 'triad' },
+                { name: 'Комплементарная', icon: 'fas fa-adjust', type: 'complementary' },
+                { name: 'Неоновая', icon: 'fas fa-bolt', type: 'neon' },
+                { name: 'Пастельная', icon: 'fas fa-cloud', type: 'pastel' },
+                { name: 'Радужная', icon: 'fas fa-rainbow', type: 'rainbow' },
+                { name: 'Тёмная', icon: 'fas fa-moon', type: 'dark' }
+            ];
+            
+            schemes.forEach(scheme => {
+                const button = document.createElement('button');
+                button.className = 'scheme-btn';
+                button.innerHTML = `
+                    <i class="${scheme.icon}"></i>
+                    <div style="margin-top: 5px; font-size: 0.9rem;">${scheme.name}</div>
+                `;
+                
+                button.addEventListener('click', () => {
+                    applyColorScheme(scheme.type);
+                    
+                    // Обновляем активную кнопку
+                    document.querySelectorAll('.scheme-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                });
+                
+                schemesGrid.appendChild(button);
+            });
+        }
+
+        // Применение цветовой схемы
+        function applyColorScheme(schemeType) {
+            const hex = currentColor.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            const hsl = rgbToHsl(r, g, b);
+            
+            let newPalette = [];
+            
+            switch(schemeType) {
+                case 'monochrome':
+                    newPalette = generateMonochromatic(hsl);
+                    break;
+                case 'analogous':
+                    newPalette = generateAnalogous(hsl);
+                    break;
+                case 'triad':
+                    newPalette = generateTriad(hsl);
+                    break;
+                case 'complementary':
+                    newPalette = generateComplementary(hsl);
+                    break;
+                case 'neon':
+                    newPalette = generateNeon(hsl);
+                    break;
+                case 'pastel':
+                    newPalette = generatePastel(hsl);
+                    break;
+                case 'rainbow':
+                    newPalette = generateRainbow();
+                    break;
+                case 'dark':
+                    newPalette = generateDark(hsl);
+                    break;
+            }
+            
+            currentPalette = newPalette;
+            renderPalette();
+            renderGradient();
+            showNotification(`Схема применена: ${schemeType}`, 'info');
+        }
+
+        // Генераторы схем
+        function generateMonochromatic(hsl) {
+            return [
+                hslToHex(hsl[0], hsl[1], hsl[2]),
+                hslToHex(hsl[0], hsl[1], hsl[2] + 15),
+                hslToHex(hsl[0], hsl[1], hsl[2] + 30),
+                hslToHex(hsl[0], hsl[1], hsl[2] - 15),
+                hslToHex(hsl[0], hsl[1], hsl[2] - 30)
+            ];
+        }
+
+        function generateAnalogous(hsl) {
+            return [
+                hslToHex((hsl[0] - 30 + 360) % 360, hsl[1], hsl[2]),
+                hslToHex((hsl[0] - 15 + 360) % 360, hsl[1], hsl[2]),
+                hslToHex(hsl[0], hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 15) % 360, hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 30) % 360, hsl[1], hsl[2])
+            ];
+        }
+
+        function generateTriad(hsl) {
+            return [
+                hslToHex(hsl[0], hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 120) % 360, hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 240) % 360, hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 60) % 360, hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 180) % 360, hsl[1], hsl[2])
+            ];
+        }
+
+        function generateComplementary(hsl) {
+            return [
+                hslToHex(hsl[0], hsl[1], hsl[2]),
+                hslToHex((hsl[0] + 180) % 360, hsl[1], hsl[2]),
+                hslToHex(hsl[0], hsl[1], hsl[2] + 20),
+                hslToHex((hsl[0] + 180) % 360, hsl[1], hsl[2] + 20),
+                hslToHex(hsl[0], hsl[1], hsl[2] - 20)
+            ];
+        }
+
+        function generateNeon(hsl) {
+            return [
+                hslToHex(hsl[0], 100, 60),
+                hslToHex((hsl[0] + 30) % 360, 100, 60),
+                hslToHex((hsl[0] + 60) % 360, 100, 60),
+                hslToHex((hsl[0] + 90) % 360, 100, 60),
+                hslToHex((hsl[0] + 120) % 360, 100, 60)
+            ];
+        }
+
+        function generatePastel(hsl) {
+            return [
+                hslToHex(hsl[0], 40, 85),
+                hslToHex((hsl[0] + 30) % 360, 40, 85),
+                hslToHex((hsl[0] + 60) % 360, 40, 85),
+                hslToHex((hsl[0] + 90) % 360, 40, 85),
+                hslToHex((hsl[0] + 120) % 360, 40, 85)
+            ];
+        }
+
+        function generateRainbow() {
+            return [
+                '#FF6B6B', // Красный
+                '#FFD166', // Желтый
+                '#06D6A0', // Зеленый
+                '#118AB2', // Синий
+                '#7209B7'  // Фиолетовый
+            ];
+        }
+
+        function generateDark(hsl) {
+            return [
+                hslToHex(hsl[0], hsl[1], 20),
+                hslToHex((hsl[0] + 30) % 360, hsl[1], 25),
+                hslToHex((hsl[0] + 60) % 360, hsl[1], 30),
+                hslToHex((hsl[0] + 90) % 360, hsl[1], 35),
+                hslToHex((hsl[0] + 120) % 360, hsl[1], 40)
+            ];
+        }
+
+        // Обновление текущего цвета
+        function updateColor(color) {
+            currentColor = color;
+            document.getElementById('colorCode').value = color;
+            
+            // Обновляем палитру
+            generatePalette(color);
+            
+            // Обновляем градиент
+            renderGradient();
+            
+            showNotification(`Цвет установлен: ${color}`, 'success');
+        }
+
+        // Показ уведомления
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            
+            // Устанавливаем цвет в зависимости от типа
+            if (type === 'success') {
+                notification.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+            } else if (type === 'error') {
+                notification.style.background = 'linear-gradient(90deg, #ff4757, #ff6b81)';
+            } else {
+                notification.style.background = 'linear-gradient(90deg, var(--neon-yellow), var(--neon-orange))';
+            }
+            
+            text.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Выбор цвета из палитры
+            document.getElementById('pickColorBtn').addEventListener('click', () => {
+                document.getElementById('colorInput').click();
+            });
+            
+            document.getElementById('colorInput').addEventListener('input', (e) => {
+                updateColor(e.target.value);
+            });
+            
+            // Случайный цвет
+            document.getElementById('randomColorBtn').addEventListener('click', () => {
+                const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+                updateColor(randomColor);
+            });
+            
+            // Копирование цвета
+            document.getElementById('copyColorBtn').addEventListener('click', () => {
+                navigator.clipboard.writeText(currentColor).then(() => {
+                    showNotification('Цвет скопирован в буфер!', 'success');
+                });
+            });
+            
+            // Генерация новой палитры
+            document.getElementById('generatePaletteBtn').addEventListener('click', () => {
+                const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+                updateColor(randomColor);
+            });
+            
+            // Экспорт
+            document.getElementById('exportBtn').addEventListener('click', () => {
+                document.getElementById('exportModal').style.display = 'flex';
+                generateExportCode('css');
+            });
+            
+            // Закрытие модального окна экспорта
+            document.getElementById('closeExportModal').addEventListener('click', () => {
+                document.getElementById('exportModal').style.display = 'none';
+            });
+            
+            // Сохранение палитры
+            document.getElementById('saveBtn').addEventListener('click', () => {
+                savePalette();
+            });
+            
+            // Загрузка из изображения
+            document.getElementById('loadImageBtn').addEventListener('click', () => {
+                loadFromImage();
+            });
+            
+            // Выбор формата экспорта
+            document.querySelectorAll('.export-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const format = option.dataset.format;
+                    generateExportCode(format);
+                    
+                    // Подсветка выбранного формата
+                    document.querySelectorAll('.export-option').forEach(opt => {
+                        opt.style.background = 'var(--glass-white)';
+                    });
+                    option.style.background = 'linear-gradient(45deg, var(--neon-purple), var(--neon-pink))';
+                });
+            });
+            
+            // Копирование кода экспорта
+            document.getElementById('copyExportBtn').addEventListener('click', () => {
+                const code = document.getElementById('exportCode').value;
+                navigator.clipboard.writeText(code).then(() => {
+                    showNotification('Код экспорта скопирован!', 'success');
+                });
+            });
+            
+            // Закрытие модального окна по клику на фон
+            document.getElementById('exportModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('exportModal')) {
+                    document.getElementById('exportModal').style.display = 'none';
+                }
+            });
+        }
+
+        // Генерация кода экспорта
+        function generateExportCode(format) {
+            const exportCode = document.getElementById('exportCode');
+            let code = '';
+            
+            switch(format) {
+                case 'css':
+                    code = `/* CSS Variables */
+:root {
+    --primary-color: ${currentPalette[0]};
+    --secondary-color: ${currentPalette[1]};
+    --accent-color: ${currentPalette[2]};
+    --background-color: ${currentPalette[3]};
+    --text-color: ${currentPalette[4]};
+    
+    --gradient: linear-gradient(135deg, ${currentPalette[0]}, ${currentPalette[2]});
+}`;
+                    break;
+                    
+                case 'tailwind':
+                    code = `// tailwind.config.js
+module.exports = {
+    theme: {
+        extend: {
+            colors: {
+                primary: '${currentPalette[0]}',
+                secondary: '${currentPalette[1]}',
+                accent: '${currentPalette[2]}',
+                background: '${currentPalette[3]}',
+                text: '${currentPalette[4]}'
+            },
+            backgroundImage: {
+                'gradient-primary': 'linear-gradient(135deg, ${currentPalette[0]}, ${currentPalette[2]})'
+            }
+        }
+    }
+}`;
+                    break;
+                    
+                case 'scss':
+                    code = `/* SCSS Variables */
+$primary-color: ${currentPalette[0]};
+$secondary-color: ${currentPalette[1]};
+$accent-color: ${currentPalette[2]};
+$background-color: ${currentPalette[3]};
+$text-color: ${currentPalette[4]};
+
+$gradient: linear-gradient(135deg, $primary-color, $accent-color);`;
+                    break;
+                    
+                case 'json':
+                    code = JSON.stringify({
+                        palette: currentPalette,
+                        primary: currentPalette[0],
+                        secondary: currentPalette[1],
+                        accent: currentPalette[2],
+                        background: currentPalette[3],
+                        text: currentPalette[4],
+                        gradient: `linear-gradient(135deg, ${currentPalette[0]}, ${currentPalette[2]})`,
+                        generated: new Date().toISOString()
+                    }, null, 2);
+                    break;
+            }
+            
+            exportCode.value = code;
+        }
+
+        // Сохранение палитры
+        function savePalette() {
+            const palette = {
+                id: Date.now(),
+                colors: currentPalette,
+                primary: currentPalette[0],
+                date: new Date().toLocaleString(),
+                name: `Палитра ${savedPalettes.length + 1}`
+            };
+            
+            savedPalettes.push(palette);
+            localStorage.setItem('savedPalettes', JSON.stringify(savedPalettes));
+            
+            showNotification('Палитра сохранена!', 'success');
+        }
+
+        // Загрузка цветов из изображения
+        function loadFromImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        extractColorsFromImage(img);
+                    };
+                    img.src = event.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            };
+            
+            input.click();
+        }
+
+        // Извлечение цветов из изображения
+        function extractColorsFromImage(img) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 100;
+            canvas.height = 100;
+            
+            ctx.drawImage(img, 0, 0, 100, 100);
+            
+            // Получаем основные цвета
+            const imageData = ctx.getImageData(0, 0, 100, 100).data;
+            const colors = {};
+            
+            for (let i = 0; i < imageData.length; i += 4) {
+                const r = imageData[i];
+                const g = imageData[i + 1];
+                const b = imageData[i + 2];
+                const hex = rgbToHex(r, g, b);
+                
+                colors[hex] = (colors[hex] || 0) + 1;
+            }
+            
+            // Находим 5 самых частых цветов
+            const sortedColors = Object.entries(colors)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(item => item[0]);
+            
+            if (sortedColors.length > 0) {
+                currentPalette = sortedColors;
+                currentColor = sortedColors[0];
+                updateColor(currentColor);
+                showNotification('Цвета извлечены из изображения!', 'success');
+            }
+        }
+
+        // Вспомогательные функции для работы с цветами
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                
+                switch(max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                
+                h /= 6;
+            }
+            
+            return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+        }
+
+        function hslToHex(h, s, l) {
+            h /= 360;
+            s /= 100;
+            l /= 100;
+            
+            let r, g, b;
+            
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            
+            const toHex = x => {
+                const hex = Math.round(x * 255).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            };
+            
+            return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+        }
+    </script>
 </body>
 </html>
