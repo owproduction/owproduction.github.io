@@ -20,22 +20,22 @@
             --neon-yellow: #ffff00;
             --neon-purple: #9d00ff;
             --space-black: #0a0a0f;
-            --space-purple: #1a0a2e;
-            --space-blue: #0a1a2e;
+            --space-purple: #0a0a2e;
+            --space-blue: #0a1a3e;
             --glass-white: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, var(--space-black), var(--space-purple), var(--space-blue));
+            background: linear-gradient(135deg, var(--space-black), var(--space-blue), #0d2b5e);
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Анимированный градиентный фон */
+        /* Анимированный градиентный фон с синими оттенками */
         .gradient-bg {
             position: fixed;
             top: 0;
@@ -43,9 +43,9 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(100, 200, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 100, 255, 0.1) 0%, transparent 50%);
             animation: pulse 15s ease-in-out infinite alternate;
             z-index: -2;
         }
@@ -69,7 +69,7 @@
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(100, 200, 255, 0.1);
             animation: float var(--duration) linear infinite;
         }
 
@@ -83,6 +83,56 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Навигация */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border-radius: 15px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, #00a8ff, #00ffff);
+            color: white;
         }
 
         /* Шапка */
@@ -96,7 +146,7 @@
             border: 1px solid var(--glass-border);
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 0, 255, 0.1);
+                0 0 0 1px rgba(0, 150, 255, 0.2);
         }
 
         .logo {
@@ -109,19 +159,19 @@
 
         .logo i {
             font-size: 2.5rem;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            background: linear-gradient(45deg, #00a8ff, #00ffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.5));
+            filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.5));
         }
 
         .logo h1 {
             font-size: 2.2rem;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-green));
+            background: linear-gradient(90deg, #00a8ff, #00ffff, #0097e6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
         }
 
         .tagline {
@@ -153,7 +203,7 @@
             border: 1px solid var(--glass-border);
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(0, 255, 255, 0.1);
+                0 0 0 1px rgba(0, 200, 255, 0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -161,7 +211,7 @@
             transform: translateY(-5px);
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 0, 255, 0.2);
+                0 0 0 1px rgba(0, 150, 255, 0.3);
         }
 
         .card-title {
@@ -170,7 +220,7 @@
             gap: 10px;
             margin-bottom: 20px;
             font-size: 1.3rem;
-            color: var(--neon-blue);
+            color: #00ffff;
         }
 
         .card-title i {
@@ -193,14 +243,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            background: linear-gradient(90deg, #00a8ff, #00ffff);
             color: white;
             border: 1px solid transparent;
         }
 
         .btn-primary:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 168, 255, 0.3);
         }
 
         .btn-secondary {
@@ -306,7 +356,7 @@
         }
 
         .scheme-btn:hover, .scheme-btn.active {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            background: linear-gradient(45deg, #00a8ff, #00ffff);
             border-color: transparent;
             transform: scale(1.05);
         }
@@ -326,7 +376,7 @@
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            background: linear-gradient(90deg, #00ff88, #00ffff);
             color: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -361,7 +411,7 @@
             border-top: 1px solid var(--glass-border);
         }
 
-        /* Цветовой ввод */
+        /* Поле ввода цвета */
         .color-input-container {
             display: flex;
             gap: 10px;
@@ -369,39 +419,30 @@
             margin-top: 20px;
         }
 
-        .color-input-container input[type="text"] {
+        .color-input {
             flex: 1;
             padding: 12px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--glass-border);
             color: white;
             font-family: monospace;
             font-size: 1rem;
         }
 
-        /* Адаптивность */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .color-palette {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .schemes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .actions-bar {
-                gap: 10px;
-            }
+        .color-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Цветовой предпросмотр */
+        .color-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid var(--glass-border);
+            flex-shrink: 0;
         }
 
         /* Простой цветовой круг */
@@ -429,6 +470,380 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
         }
+
+        /* Шаблоны приложений */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .template-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .template-header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .template-preview {
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        /* Шаблон мессенджера */
+        .messenger-app {
+            width: 300px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .messenger-header {
+            padding: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .messenger-nav {
+            display: flex;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            color: #6c757d;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: inherit;
+            font-weight: 600;
+        }
+
+        .messenger-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.incoming {
+            align-items: flex-start;
+        }
+
+        .message.outgoing {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+            font-size: 14px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .messenger-input {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Шаблон интернет-магазина */
+        .ecommerce-app {
+            width: 300px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ecommerce-header {
+            padding: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-bar {
+            padding: 0 15px;
+            background: white;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .ecommerce-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image {
+            height: 100px;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .bottom-nav {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .nav-icon {
+            flex: 1;
+            text-align: center;
+            color: #6c757d;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .nav-icon.active {
+            color: inherit;
+        }
+
+        /* Шаблон дашборда */
+        .dashboard-app {
+            width: 300px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-header {
+            padding: 20px 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart {
+            height: 150px;
+            background: linear-gradient(to top, #e9ecef, #f8f9fa);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .color-palette {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .schemes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .actions-bar {
+                gap: 10px;
+            }
+            
+            .simple-wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .template-preview {
+                padding: 15px;
+                min-height: 300px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -437,96 +852,332 @@
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-wand-magic-sparkles"></i>
-                <h1>Color Wizard</h1>
-            </div>
-            <p class="tagline">Создавайте идеальные цветовые палитры</p>
-        </header>
+        <!-- Навигация -->
+        <nav class="nav-bar">
+            <button class="nav-btn active" data-page="generator">
+                <i class="fas fa-palette"></i>
+                Генератор
+            </button>
+            <button class="nav-btn" data-page="preview">
+                <i class="fas fa-eye"></i>
+                Превью
+            </button>
+        </nav>
 
-        <!-- Основной контент -->
-        <div class="main-content">
-            <!-- Левая колонка - выбор цвета -->
-            <div class="card">
-                <h2 class="card-title">
-                    <i class="fas fa-palette"></i>
-                    Выбор цвета
-                </h2>
-                
-                <!-- Простой цветовой круг -->
-                <div class="color-wheel-container">
-                    <div class="simple-wheel" id="simpleWheel">
-                        <div class="wheel-pointer" id="wheelPointer"></div>
+        <!-- Страница генератора -->
+        <div class="page active" id="generator">
+            <!-- Шапка -->
+            <header class="header">
+                <div class="logo">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <h1>Color Wizard</h1>
+                </div>
+                <p class="tagline">Создавайте идеальные цветовые палитры</p>
+            </header>
+
+            <!-- Основной контент -->
+            <div class="main-content">
+                <!-- Левая колонка - выбор цвета -->
+                <div class="card">
+                    <h2 class="card-title">
+                        <i class="fas fa-palette"></i>
+                        Выбор цвета
+                    </h2>
+                    
+                    <!-- Простой цветовой круг -->
+                    <div class="color-wheel-container">
+                        <div class="simple-wheel" id="simpleWheel">
+                            <div class="wheel-pointer" id="wheelPointer"></div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="btn-group">
-                    <button class="btn btn-primary" id="colorPickerBtn">
-                        <i class="fas fa-eye-dropper"></i>
-                        Выбрать цвет
-                    </button>
-                    <button class="btn btn-secondary" id="randomColorBtn">
-                        <i class="fas fa-random"></i>
-                        Случайный цвет
-                    </button>
-                    <input type="color" id="colorInput" style="display: none;">
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <h3 style="margin-bottom: 10px; color: var(--neon-blue);">Текущий цвет:</h3>
-                    <div class="color-input-container">
-                        <input type="text" id="colorCode" readonly value="#FF6B6B">
-                        <button class="btn btn-secondary" id="copyColorBtn">
-                            <i class="far fa-copy"></i>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="colorPickerBtn">
+                            <i class="fas fa-eye-dropper"></i>
+                            Выбрать цвет
                         </button>
+                        <button class="btn btn-secondary" id="randomColorBtn">
+                            <i class="fas fa-random"></i>
+                            Случайный цвет
+                        </button>
+                        <input type="color" id="colorInput" style="display: none;">
+                    </div>
+
+                    <!-- Ввод цвета вручную -->
+                    <div style="margin-top: 20px;">
+                        <h3 style="margin-bottom: 10px; color: #00ffff;">
+                            <i class="fas fa-edit"></i>
+                            Введите цвет вручную
+                        </h3>
+                        <div class="color-input-container">
+                            <div class="color-preview" id="colorPreview" style="background: #FF6B6B;"></div>
+                            <input type="text" id="colorCode" class="color-input" placeholder="#FFFFFF или rgb(255,255,255)" value="#FF6B6B">
+                            <button class="btn btn-secondary" id="applyColorBtn">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-secondary" id="copyColorBtn">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        <p style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); margin-top: 5px;">
+                            Поддерживаются форматы: #FFF, #FFFFFF, rgb(), rgba(), hsl(), hsla()
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Правая колонка - палитра -->
+                <div class="card">
+                    <h2 class="card-title">
+                        <i class="fas fa-star"></i>
+                        Цветовая палитра
+                    </h2>
+
+                    <div class="color-palette" id="colorPalette">
+                        <!-- Цвета будут генерироваться здесь -->
+                    </div>
+
+                    <div style="margin: 25px 0;">
+                        <h3 style="margin-bottom: 10px; color: #00ff88;">
+                            <i class="fas fa-fill-drip"></i>
+                            Градиент
+                        </h3>
+                        <div class="gradient-preview" id="gradientPreview"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Правая колонка - палитра -->
-            <div class="card">
+            <!-- Панель цветовых схем -->
+            <div class="card" style="margin-top: 20px;">
                 <h2 class="card-title">
-                    <i class="fas fa-star"></i>
-                    Цветовая палитра
+                    <i class="fas fa-magic"></i>
+                    Цветовые схемы
                 </h2>
-
-                <div class="color-palette" id="colorPalette">
-                    <!-- Цвета будут генерироваться здесь -->
+                <div class="schemes-grid" id="schemesGrid">
+                    <!-- Схемы будут генерироваться здесь -->
                 </div>
+            </div>
 
-                <div style="margin: 25px 0;">
-                    <h3 style="margin-bottom: 10px; color: var(--neon-green);">
-                        <i class="fas fa-fill-drip"></i>
-                        Градиент
-                    </h3>
-                    <div class="gradient-preview" id="gradientPreview"></div>
-                </div>
+            <!-- Панель действий -->
+            <div class="actions-bar">
+                <button class="btn btn-primary" id="generatePaletteBtn">
+                    <i class="fas fa-bolt"></i>
+                    Новая палитра
+                </button>
+                <button class="btn btn-secondary" id="saveBtn">
+                    <i class="far fa-save"></i>
+                    Сохранить
+                </button>
+                <button class="btn btn-secondary" id="copyAllBtn">
+                    <i class="fas fa-copy"></i>
+                    Копировать все
+                </button>
+                <button class="btn btn-secondary" id="applyToPreviewBtn">
+                    <i class="fas fa-eye"></i>
+                    Применить к превью
+                </button>
             </div>
         </div>
 
-        <!-- Панель цветовых схем -->
-        <div class="card" style="margin-top: 20px;">
-            <h2 class="card-title">
-                <i class="fas fa-magic"></i>
-                Цветовые схемы
-            </h2>
-            <div class="schemes-grid" id="schemesGrid">
-                <!-- Схемы будут генерироваться здесь -->
-            </div>
-        </div>
+        <!-- Страница превью -->
+        <div class="page" id="preview">
+            <header class="header">
+                <div class="logo">
+                    <i class="fas fa-eye"></i>
+                    <h1>Превью шаблонов</h1>
+                </div>
+                <p class="tagline">Посмотрите, как ваша палитра выглядит в реальных приложениях</p>
+            </header>
 
-        <!-- Панель действий -->
-        <div class="actions-bar">
-            <button class="btn btn-primary" id="generatePaletteBtn">
-                <i class="fas fa-bolt"></i>
-                Новая палитра
-            </button>
-            <button class="btn btn-secondary" id="saveBtn">
-                <i class="far fa-save"></i>
-                Сохранить
-            </button>
+            <div class="templates-grid">
+                <!-- Шаблон мессенджера -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <h3><i class="fas fa-comments"></i> Мессенджер</h3>
+                    </div>
+                    <div class="template-preview">
+                        <div class="messenger-app" id="messengerTemplate">
+                            <div class="messenger-header" id="messengerHeader">
+                                <div>
+                                    <i class="fas fa-arrow-left"></i>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-weight: 600;">Диалог</div>
+                                    <div style="font-size: 12px;">онлайн</div>
+                                </div>
+                                <div>
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </div>
+                            </div>
+                            <div class="messenger-nav">
+                                <div class="nav-item active">Чаты</div>
+                                <div class="nav-item">Звонки</div>
+                                <div class="nav-item">Контакты</div>
+                            </div>
+                            <div class="messenger-content">
+                                <div class="message incoming">
+                                    <div class="message-bubble" id="incomingMsg">Привет! Как дела?</div>
+                                    <div class="message-time">10:00</div>
+                                </div>
+                                <div class="message outgoing">
+                                    <div class="message-bubble" id="outgoingMsg">Отлично! Смотрю новую палитру</div>
+                                    <div class="message-time">10:01</div>
+                                </div>
+                                <div class="message incoming">
+                                    <div class="message-bubble" id="incomingMsg2">Круто! Покажи</div>
+                                    <div class="message-time">10:02</div>
+                                </div>
+                            </div>
+                            <div class="messenger-input">
+                                <input type="text" class="input-field" placeholder="Введите сообщение...">
+                                <button class="send-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Шаблон интернет-магазина -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <h3><i class="fas fa-shopping-cart"></i> Интернет-магазин</h3>
+                    </div>
+                    <div class="template-preview">
+                        <div class="ecommerce-app" id="ecommerceTemplate">
+                            <div class="ecommerce-header" id="ecommerceHeader">
+                                <div>
+                                    <i class="fas fa-bars"></i>
+                                </div>
+                                <div style="font-weight: 600;">Магазин</div>
+                                <div>
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="search-bar">
+                                <input type="text" class="search-input" placeholder="Поиск товаров...">
+                            </div>
+                            <div class="ecommerce-content">
+                                <div class="product-grid">
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <i class="fas fa-tshirt fa-2x"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">Футболка Classic</div>
+                                            <div class="product-price" id="price1">$24.99</div>
+                                        </div>
+                                    </div>
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <i class="fas fa-headphones fa-2x"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">Наушники Pro</div>
+                                            <div class="product-price" id="price2">$89.99</div>
+                                        </div>
+                                    </div>
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <i class="fas fa-book fa-2x"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">Книга Design</div>
+                                            <div class="product-price" id="price3">$19.99</div>
+                                        </div>
+                                    </div>
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <i class="fas fa-mug-hot fa-2x"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">Кружка Premium</div>
+                                            <div class="product-price" id="price4">$14.99</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom-nav">
+                                <div class="nav-icon active">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="nav-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="nav-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="nav-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Шаблон дашборда -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <h3><i class="fas fa-chart-line"></i> Дашборд</h3>
+                    </div>
+                    <div class="template-preview">
+                        <div class="dashboard-app" id="dashboardTemplate">
+                            <div class="dashboard-header" id="dashboardHeader">
+                                <div>
+                                    <div style="font-size: 18px; font-weight: 600;">Аналитика</div>
+                                    <div style="font-size: 12px;">Сегодня, 15 ноября</div>
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dashboard-content">
+                                <div class="stats-grid">
+                                    <div class="stat-card" id="stat1">
+                                        <div class="stat-title">Посетители</div>
+                                        <div class="stat-value">2.4K</div>
+                                    </div>
+                                    <div class="stat-card" id="stat2">
+                                        <div class="stat-title">Продажи</div>
+                                        <div class="stat-value">$12.8K</div>
+                                    </div>
+                                    <div class="stat-card" id="stat3">
+                                        <div class="stat-title">Заказы</div>
+                                        <div class="stat-value">348</div>
+                                    </div>
+                                    <div class="stat-card" id="stat4">
+                                        <div class="stat-title">Конверсия</div>
+                                        <div class="stat-value">4.8%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <div style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Продажи за неделю</div>
+                                    <div class="chart">
+                                        <div class="chart-bar" id="chartBar1" style="left: 40px; height: 60%;"></div>
+                                        <div class="chart-bar" id="chartBar2" style="left: 80px; height: 80%;"></div>
+                                        <div class="chart-bar" id="chartBar3" style="left: 120px; height: 45%;"></div>
+                                        <div class="chart-bar" id="chartBar4" style="left: 160px; height: 90%;"></div>
+                                        <div class="chart-bar" id="chartBar5" style="left: 200px; height: 70%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Панель действий для превью -->
+            <div class="actions-bar" style="margin-top: 30px;">
+                <button class="btn btn-primary" id="refreshPreviewBtn">
+                    <i class="fas fa-sync-alt"></i>
+                    Обновить превью
+                </button>
+                <button class="btn btn-secondary" id="backToGeneratorBtn">
+                    <i class="fas fa-palette"></i>
+                    Вернуться к генератору
+                </button>
+            </div>
         </div>
 
         <!-- Уведомление -->
@@ -563,8 +1214,39 @@
             createParticles();
             generatePalette();
             setupEventListeners();
+            initNavigation();
             showNotification('Готов к созданию палитр!', 'success');
         });
+
+        // Навигация между страницами
+        function initNavigation() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const pages = document.querySelectorAll('.page');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pageId = button.dataset.page;
+                    
+                    // Обновляем активную кнопку
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Показываем выбранную страницу
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                        if (page.id === pageId) {
+                            page.classList.add('active');
+                        }
+                    });
+                    
+                    if (pageId === 'preview') {
+                        updateTemplatePreviews();
+                    }
+                    
+                    showNotification(`Перешли на страницу: ${button.textContent.trim()}`, 'info');
+                });
+            });
+        }
 
         // Создание частиц фона
         function createParticles() {
@@ -578,8 +1260,8 @@
                 const size = Math.random() * 4 + 1;
                 const duration = Math.random() * 20 + 10;
                 const delay = Math.random() * 5;
-                const color = `rgba(${Math.floor(Math.random() * 255)}, 
-                                   ${Math.floor(Math.random() * 255)}, 
+                const color = `rgba(${Math.floor(Math.random() * 100)}, 
+                                   ${Math.floor(Math.random() * 200)}, 
                                    ${Math.floor(Math.random() * 255)}, 
                                    ${Math.random() * 0.3 + 0.1})`;
                 
@@ -894,13 +1576,138 @@
 
         // Обновление текущего цвета
         function updateColor(color) {
-            currentColor = color;
-            document.getElementById('colorCode').value = color;
+            currentColor = normalizeColor(color);
+            document.getElementById('colorCode').value = currentColor;
+            document.getElementById('colorPreview').style.background = currentColor;
             
             // Обновляем палитру
-            generatePalette(color);
+            generatePalette(currentColor);
             
-            showNotification(`Цвет установлен: ${color}`, 'success');
+            showNotification(`Цвет установлен: ${currentColor}`, 'success');
+        }
+
+        // Обновление шаблонов превью
+        function updateTemplatePreviews() {
+            if (currentPalette.length < 5) return;
+            
+            const [primary, secondary, accent, text, background] = currentPalette;
+            
+            // Мессенджер
+            const messengerHeader = document.getElementById('messengerHeader');
+            const incomingMsg = document.getElementById('incomingMsg');
+            const outgoingMsg = document.getElementById('outgoingMsg');
+            const sendBtn = document.querySelector('.send-btn');
+            
+            messengerHeader.style.background = primary;
+            incomingMsg.style.background = lightenColor(secondary, 40);
+            incomingMsg.style.color = getContrastColor(secondary);
+            outgoingMsg.style.background = accent;
+            outgoingMsg.style.color = getContrastColor(accent);
+            sendBtn.style.background = primary;
+            
+            // Интернет-магазин
+            const ecommerceHeader = document.getElementById('ecommerceHeader');
+            const prices = document.querySelectorAll('.product-price');
+            const activeNavIcon = document.querySelector('.nav-icon.active');
+            
+            ecommerceHeader.style.background = primary;
+            prices.forEach((price, index) => {
+                price.style.color = index % 2 === 0 ? accent : secondary;
+            });
+            activeNavIcon.style.color = primary;
+            
+            // Дашборд
+            const dashboardHeader = document.getElementById('dashboardHeader');
+            const stats = document.querySelectorAll('.stat-card');
+            const chartBars = document.querySelectorAll('.chart-bar');
+            
+            dashboardHeader.style.background = primary;
+            stats.forEach((stat, index) => {
+                stat.style.background = index % 2 === 0 ? lightenColor(accent, 70) : lightenColor(secondary, 70);
+                stat.style.color = getContrastColor(stat.style.background);
+            });
+            
+            chartBars.forEach((bar, index) => {
+                const colors = [primary, secondary, accent, text, background];
+                bar.style.background = colors[index] || primary;
+            });
+            
+            showNotification('Превью шаблонов обновлено!', 'success');
+        }
+
+        // Вспомогательные функции для работы с цветами
+        function normalizeColor(color) {
+            color = color.trim();
+            
+            if (color.startsWith('#')) {
+                if (color.length === 7) {
+                    const r = color[1] + color[2];
+                    const g = color[3] + color[4];
+                    const b = color[5] + color[6];
+                    
+                    if (r[0] === r[1] && g[0] === g[1] && b[0] === b[1]) {
+                        return '#' + r[0] + g[0] + b[0];
+                    }
+                }
+                return color.toUpperCase();
+            }
+            
+            if (color.toLowerCase().startsWith('rgb')) {
+                try {
+                    const match = color.match(/(\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        const r = parseInt(match[1]);
+                        const g = parseInt(match[2]);
+                        const b = parseInt(match[3]);
+                        return rgbToHex(r, g, b);
+                    }
+                } catch (e) {
+                    console.error('Error parsing RGB color:', e);
+                }
+            }
+            
+            if (color.toLowerCase().startsWith('hsl')) {
+                try {
+                    const match = color.match(/(\d+),\s*(\d+)%,\s*(\d+)%/);
+                    if (match) {
+                        const h = parseInt(match[1]);
+                        const s = parseInt(match[2]);
+                        const l = parseInt(match[3]);
+                        return hslToHex(h, s, l);
+                    }
+                } catch (e) {
+                    console.error('Error parsing HSL color:', e);
+                }
+            }
+            
+            const ctx = document.createElement('canvas').getContext('2d');
+            ctx.fillStyle = color;
+            const result = ctx.fillStyle;
+            return result.startsWith('#') ? result : '#FF6B6B';
+        }
+
+        function getContrastColor(hexcolor) {
+            hexcolor = hexcolor.replace('#', '');
+            const r = parseInt(hexcolor.substr(0, 2), 16);
+            const g = parseInt(hexcolor.substr(2, 2), 16);
+            const b = parseInt(hexcolor.substr(4, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 128 ? '#000000' : '#FFFFFF';
+        }
+
+        function lightenColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            
+            return '#' + (
+                0x1000000 +
+                (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)
+            ).toString(16).slice(1);
         }
 
         // Показ уведомления
@@ -908,13 +1715,12 @@
             const notification = document.getElementById('notification');
             const text = document.getElementById('notificationText');
             
-            // Устанавливаем цвет в зависимости от типа
             if (type === 'success') {
-                notification.style.background = 'linear-gradient(90deg, var(--neon-green), var(--neon-blue))';
+                notification.style.background = 'linear-gradient(90deg, #00ff88, #00ffff)';
             } else if (type === 'error') {
                 notification.style.background = 'linear-gradient(90deg, #ff4757, #ff6b81)';
             } else {
-                notification.style.background = 'linear-gradient(90deg, var(--neon-yellow), var(--neon-orange))';
+                notification.style.background = 'linear-gradient(90deg, #00a8ff, #0097e6)';
             }
             
             text.textContent = message;
@@ -942,10 +1748,24 @@
                 updateColor(randomColor);
             });
             
+            // Применение цвета из поля ввода
+            document.getElementById('applyColorBtn').addEventListener('click', () => {
+                const colorInput = document.getElementById('colorCode').value;
+                updateColor(colorInput);
+            });
+            
             // Копирование цвета
             document.getElementById('copyColorBtn').addEventListener('click', () => {
                 navigator.clipboard.writeText(currentColor).then(() => {
                     showNotification('Цвет скопирован!', 'success');
+                });
+            });
+            
+            // Копирование всей палитры
+            document.getElementById('copyAllBtn').addEventListener('click', () => {
+                const paletteText = currentPalette.join('\n');
+                navigator.clipboard.writeText(paletteText).then(() => {
+                    showNotification('Вся палитра скопирована!', 'success');
                 });
             });
             
@@ -958,6 +1778,29 @@
             // Сохранение палитры
             document.getElementById('saveBtn').addEventListener('click', () => {
                 savePalette();
+            });
+            
+            // Применение цвета по нажатию Enter
+            document.getElementById('colorCode').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    updateColor(e.target.value);
+                }
+            });
+            
+            // Применить к превью
+            document.getElementById('applyToPreviewBtn').addEventListener('click', () => {
+                updateTemplatePreviews();
+                document.querySelector('.nav-btn[data-page="preview"]').click();
+            });
+            
+            // Обновить превью
+            document.getElementById('refreshPreviewBtn').addEventListener('click', () => {
+                updateTemplatePreviews();
+            });
+            
+            // Вернуться к генератору
+            document.getElementById('backToGeneratorBtn').addEventListener('click', () => {
+                document.querySelector('.nav-btn[data-page="generator"]').click();
             });
         }
 
